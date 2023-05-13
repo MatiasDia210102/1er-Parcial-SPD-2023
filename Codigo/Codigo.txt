@@ -46,9 +46,8 @@ void encender_digitos(int estado0, int estado1, int estado2, int estado3, int es
 void encender_display(int digito);
 void imprimir_mensaje(char* mensaje, int contador);
 
-
-void validar_estado_montacargas(char* mensaje, int contador, int led_high, int led_low);
-int recorrer_pisos(char* mensaje, char* condicion, int contador, int numero, int led_high, int led_low);
+void mostrar_posicion_montacargas(char* mensaje, int contador, int led_high, int led_low);
+int recorrer_pisos(char* condicion, int contador, int numero, int led_high, int led_low);
 
 void ejecutar_programa(int estado_boton);
 int sumar_o_restar(char* condicion, int contador, int numero);
@@ -158,24 +157,22 @@ int sumar_o_restar(char* condicion, int contador, int numero){
   return contador;
 }
 
-void validar_estado_montacargas(char* mensaje, int contador, int led_high, int led_low){
+void mostrar_posicion_montacargas(char* mensaje, int contador, int led_high, int led_low){
   
+  encender_display(contador); 
   encender_apagar_led(led_high, led_low);
   validar_estado_led(led_high, mensaje);
   imprimir_mensaje("Se encuentra en el piso ", contador);
 }
 
-int recorrer_pisos(char* mensaje, char* condicion, int contador, int numero, int led_high, int led_low){
-  
+int recorrer_pisos(char* condicion, int contador, int numero, int led_high, int led_low){
   //en que piso esta
-  encender_display(contador); // piso 0
-  validar_estado_montacargas("\nMontacargas en movimiento",contador, LEDVERDE, LEDROJO);
+  mostrar_posicion_montacargas("\nMontacargas en movimiento",contador, LEDVERDE, LEDROJO);
   contador = sumar_o_restar(condicion, contador, numero);
   delay(3000); // tiempo entre pisos
   
   //a que piso llego
-  encender_display(contador); 
-  validar_estado_montacargas("Montacargas en espera",contador, LEDROJO, LEDVERDE);
+  mostrar_posicion_montacargas("Montacargas en espera",contador, LEDROJO, LEDVERDE);
   return contador;
 }
 
@@ -190,17 +187,17 @@ void ejecutar_programa(int estado_boton){
    
     if(digitalRead(BOTONSUBE) == LOW){
 
-      contador = recorrer_pisos("Se encuentra en el piso ", "Menor", contador, 9, LEDVERDE, LEDROJO);
+      contador = recorrer_pisos("Menor", contador, 9, LEDVERDE, LEDROJO);
     }
     
     if(digitalRead(BOTOBAJA) == LOW){
       
-      contador = recorrer_pisos("\nSe encuentra en el piso ", "Mayor", contador, 0, LEDVERDE, LEDROJO);
+      contador = recorrer_pisos("Mayor", contador, 0, LEDVERDE, LEDROJO);
     }
     
   } else if(estado_boton == HIGH && paro == 1){
     
-    validar_estado_montacargas("\nMontacargas detenido",contador, LEDROJO, LEDVERDE);
+    mostrar_posicion_montacargas("\nMontacargas detenido",contador, LEDROJO, LEDVERDE);
     paro = 0;
   }
 }
