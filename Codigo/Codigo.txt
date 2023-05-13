@@ -1,0 +1,206 @@
+/*C++ code
+  Matias Diaz DIV J TT
+
+Se nos pide armar un modelo de montacarga funcional. 
+
+Requisitos del Proyecto:
+• Deberá haber 3 botones, uno para subir pisos, otro para bajar pisos y otro para
+detener el montacarga.
+
+• Deberá tener 2 LEDs, uno verde que indica cuando el montacarga este en
+movimiento, otro rojo que indique cuando el montacarga esté pausado.
+
+• En el display 7 segmentos deberán informar en tiempo real en qué piso se
+encuentra el elevador.
+
+• Se sabe que el tiempo de trayecto entre pisos es de 3 segundos (3000 ms).
+• Se deberá informar por monitor serial el piso en el que se encuentra el
+montacarga, este en funcionamiento o en pausa.
+
+2) Funcionamiento del montacarga:
+• Implementa un algoritmo que permita que el elevador suba y baje o frene
+presionando los botones correspondientes.
+
+• Deberán buscar una forma para pausar el montacargas cuando el usuario lo
+determine.
+*/
+
+#define LEDROJO 10 
+#define LEDVERDE 9
+#define B 8
+#define A 7
+#define F 6
+#define G 5
+#define E 4
+#define D 3
+#define C 2
+
+#define BOTONPARA A0
+#define BOTOBAJA A1
+#define BOTONSUBE A2
+
+void validar_estado_led(int led, char* mensaje);
+void encender_apagar_led(int led, int led2);
+void encender_digitos(int estado0, int estado1, int estado2, int estado3, int estado4, int estado5, int estado6);
+
+void encender_display(int digito);
+void imprimir_mensaje(char* mensaje, int contador);
+
+
+void validar_estado_montacargas(char* mensaje, int contador, int led_high, int led_low);
+int recorrer_pisos(char* mensaje, char* condicion, int contador, int numero, int led_high, int led_low);
+
+void ejecutar_programa(int estado_boton);
+int sumar_o_restar(char* condicion, int contador, int numero);
+
+int contador = 0;
+int estado_boton = 0;
+int paro;
+
+void setup()
+{
+  for(int i = 2; i <= 10; i++){
+    pinMode(i, OUTPUT);
+  }
+  pinMode(BOTONPARA, INPUT);
+  pinMode(BOTOBAJA, INPUT_PULLUP);
+  pinMode(BOTONSUBE, INPUT_PULLUP);
+  Serial.begin(9600);
+}
+
+void loop()
+{
+  if(digitalRead(BOTONPARA) == HIGH){
+    estado_boton = !estado_boton;
+    delay(300);
+  } 
+  ejecutar_programa(estado_boton);
+}
+
+void validar_estado_led(int led, char* mensaje){
+  
+  if(digitalRead(led) == HIGH){Serial.println(mensaje);}
+}
+
+void encender_apagar_led(int led, int led2){
+  
+  digitalWrite(led, HIGH);
+  digitalWrite(led2, LOW);
+}
+
+void encender_digitos(int estado0, int estado1, int estado2, int estado3, int estado4, int estado5, int estado6){
+  digitalWrite(A, estado0);
+  digitalWrite(B, estado1);
+  digitalWrite(C, estado2);
+  digitalWrite(D, estado3);
+  digitalWrite(E, estado4);
+  digitalWrite(F, estado5);
+  digitalWrite(G, estado6);
+}
+
+void encender_display(int digito){
+  
+  switch(digito) {
+    case 0:
+       encender_digitos(HIGH, HIGH, HIGH, HIGH, HIGH, HIGH, LOW);
+       break;
+    case 1:
+       encender_digitos(LOW, HIGH, HIGH, LOW, LOW, LOW, LOW);
+       break;
+    case 2:
+      encender_digitos(HIGH, HIGH, LOW, HIGH, HIGH, LOW, HIGH);
+      break;
+    case 3:
+      encender_digitos(HIGH, HIGH, HIGH, HIGH, LOW, LOW, HIGH);
+      break;
+    case 4:
+      encender_digitos(LOW, HIGH, HIGH, LOW, LOW, HIGH, HIGH);
+      break;
+    case 5:
+      encender_digitos(HIGH, LOW, HIGH, HIGH, LOW, HIGH, HIGH);
+      break;
+    case 6:
+      encender_digitos(HIGH, LOW, HIGH, HIGH, HIGH, HIGH, HIGH);
+      break;
+    case 7:
+      encender_digitos(HIGH, HIGH, HIGH, LOW, LOW, LOW, LOW);
+      break;
+    case 8:
+      encender_digitos(HIGH, HIGH, HIGH, HIGH, HIGH, HIGH, HIGH);
+      break;
+    case 9:
+      encender_digitos(HIGH, HIGH, HIGH, LOW, LOW, HIGH, HIGH);
+      break;
+  }
+}
+
+void imprimir_mensaje(char* mensaje, int contador){
+  
+  Serial.print(mensaje);
+  Serial.println(contador);
+}
+
+int sumar_o_restar(char* condicion, int contador, int numero){
+  
+  if(condicion == "Menor"){
+    
+    if(contador < numero){
+      
+      contador++;
+    }
+  } else if(condicion == "Mayor"){
+    
+    if(contador > numero){
+      
+      contador--;
+    }
+  }
+  return contador;
+}
+
+void validar_estado_montacargas(char* mensaje, int contador, int led_high, int led_low){
+  
+  encender_apagar_led(led_high, led_low);
+  validar_estado_led(led_high, mensaje);
+  imprimir_mensaje("Se encuentra en el piso ", contador);
+}
+
+int recorrer_pisos(char* mensaje, char* condicion, int contador, int numero, int led_high, int led_low){
+  
+  //en que piso esta
+  encender_display(contador); // piso 0
+  validar_estado_montacargas("\nMontacargas en movimiento",contador, LEDVERDE, LEDROJO);
+  contador = sumar_o_restar(condicion, contador, numero);
+  delay(3000); // tiempo entre pisos
+  
+  //a que piso llego
+  encender_display(contador); 
+  validar_estado_montacargas("Montacargas en espera",contador, LEDROJO, LEDVERDE);
+  return contador;
+}
+
+void ejecutar_programa(int estado_boton){
+  
+  if(estado_boton == LOW){
+    if(paro == 0){
+      
+       Serial.println("\nMontacargas en espera. Presione un boton ");
+       paro = 1;
+    }
+   
+    if(digitalRead(BOTONSUBE) == LOW){
+
+      contador = recorrer_pisos("Se encuentra en el piso ", "Menor", contador, 9, LEDVERDE, LEDROJO);
+    }
+    
+    if(digitalRead(BOTOBAJA) == LOW){
+      
+      contador = recorrer_pisos("\nSe encuentra en el piso ", "Mayor", contador, 0, LEDVERDE, LEDROJO);
+    }
+    
+  } else if(estado_boton == HIGH && paro == 1){
+    
+    validar_estado_montacargas("\nMontacargas detenido",contador, LEDROJO, LEDVERDE);
+    paro = 0;
+  }
+}
