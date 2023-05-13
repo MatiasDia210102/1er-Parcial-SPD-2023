@@ -35,7 +35,7 @@ void encender_display(int digito);
 void imprimir_mensaje(char* mensaje, int contador);
 
 void validar_estado_montacargas(char* mensaje, int contador, int led_high, int led_low);
-int recorrer_pisos(char* mensaje, char* condicion, int contador, int numero, int led_high, int led_low);
+int recorrer_pisos(char* condicion, int contador, int numero, int led_high, int led_low);
 
 void ejecutar_programa(int estado_boton);
 int sumar_o_restar(char* condicion, int contador, int numero);
@@ -173,4 +173,4 @@ int sumar_o_restar(char* condicion, int contador, int numero){
 ~~~
 
 ## Links
--[ThinkerCad](https://www.tinkercad.com/things/7rjLmqkCjsa-ejercicio-trenes/editel?sharecode=rhnHZ1HSNi45kLiAJaHVGWsPdo9eRsRYTNV-S7J5mjs)
+-[ThinkerCad](https://www.tinkercad.com/things/4338Omh0dDd-1er-parcial-spd-2023/editel?sharecode=GnZ_A0oCtnwW-TD9_00K6VdQM4LdxQsVx7OkNJ-BkQ4)
