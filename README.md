@@ -1,11 +1,4 @@
 # 1er-Parcial-SPD-2023
-
-# SPD-Dojo-2
-## Integrantes
-- Mateo Ciotti
-- Matias Díaz
-- Franco Beltrán
-
 ## Proyecto
 
 <img src="https://github.com/MatiasDia210102/1er-Parcial-SPD-2023/blob/42f527afa33eb8bfd08b1c8172cfdda163ede0b7/Imagenes/1er%20Parcial%20SPD%202023.png?raw=true" width="800"/>
@@ -50,8 +43,9 @@ int sumar_o_restar(char* condicion, int contador, int numero);
 int contador = 0;
 int estado_boton = 0;
 int paro;
-
+~~~
 ## Principal
+~~~
 void setup()
 {
   for(int i = 2; i <= 10; i++){
@@ -71,8 +65,6 @@ void loop()
   } 
   ejecutar_programa(estado_boton);
 }
-
-
 ~~~
 
 ## Links
