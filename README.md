@@ -45,7 +45,7 @@ int estado_boton = 0;
 int paro;
 ~~~
 ## Principal
-~~~
+~~~C 
 void setup()
 {
   for(int i = 2; i <= 10; i++){
@@ -69,7 +69,7 @@ void loop()
 # LEDS
 ## Descripcion
 Si el led esta encendido imprime el mensaje recibido
-~~~
+~~~C 
 void validar_estado_led(int led, char* mensaje){
   
   if(digitalRead(led) == HIGH){Serial.println(mensaje);}
@@ -77,7 +77,7 @@ void validar_estado_led(int led, char* mensaje){
 ~~~
 ## Descripcion
 Enciende un led y apaga otro
-~~~
+~~~C 
 void encender_apagar_led(int led, int led2){
   
   digitalWrite(led, HIGH);
@@ -88,7 +88,7 @@ void encender_apagar_led(int led, int led2){
 # DISPLAY
 ## Descripcion
 Enciende o apaga los digitos del display
-~~~
+~~~C
 void encender_digitos(int estado0, int estado1, int estado2, int estado3, int estado4, int estado5, int estado6){
   digitalWrite(A, estado0);
   digitalWrite(B, estado1);
@@ -102,7 +102,7 @@ void encender_digitos(int estado0, int estado1, int estado2, int estado3, int es
 
 ## Descripcion
 Enciende un patron de digitos segun el digito recibido
-~~~
+~~~C
 void encender_display(int digito){
   
   switch(digito) {
@@ -142,7 +142,7 @@ void encender_display(int digito){
 # MENSAJE
 ## Descripcion
 Imprime el mensaje recibido junto a un contador
-~~~
+~~~C
 void imprimir_mensaje(char* mensaje, int contador){
   
   Serial.print(mensaje);
@@ -152,7 +152,7 @@ void imprimir_mensaje(char* mensaje, int contador){
 # CONTADOR
 ## Descripcion
 Le suma o resta un numero al contador recibido segun la condicion recibida
-~~~
+~~~C
 int sumar_o_restar(char* condicion, int contador, int numero){
   
   if(condicion == "Menor"){
@@ -174,7 +174,7 @@ int sumar_o_restar(char* condicion, int contador, int numero){
 # MONTACARGAS
 ## Descripcion
 Informa en que piso se encuentra el montacargas
-~~~
+~~~C
 void mostrar_posicion_montacargas(char* mensaje, int contador, int led_high, int led_low){
   
   encender_display(contador); 
@@ -186,7 +186,7 @@ void mostrar_posicion_montacargas(char* mensaje, int contador, int led_high, int
 # PISOS
 ## Descripcion
 Informa si el montacargas esta en movimiento o no y si llego a su destino
-~~~
+~~~C
 int recorrer_pisos(char* condicion, int contador, int numero, int led_high, int led_low){
   //en que piso esta
   mostrar_posicion_montacargas("\nMontacargas en movimiento",contador, LEDVERDE, LEDROJO);
@@ -201,7 +201,7 @@ int recorrer_pisos(char* condicion, int contador, int numero, int led_high, int 
 # BOTONES
 ## Descripcion
 Recorre los pisos segun que boton se presione o para el montacargas
-~~~
+~~~C
 void ejecutar_programa(int estado_boton){
   
   if(estado_boton == LOW){
