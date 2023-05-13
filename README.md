@@ -34,7 +34,7 @@ void encender_digitos(int estado0, int estado1, int estado2, int estado3, int es
 void encender_display(int digito);
 void imprimir_mensaje(char* mensaje, int contador);
 
-void validar_estado_montacargas(char* mensaje, int contador, int led_high, int led_low);
+void mostrar_posicion_montacargas(char* mensaje, int contador, int led_high, int led_low);
 int recorrer_pisos(char* condicion, int contador, int numero, int led_high, int led_low);
 
 void ejecutar_programa(int estado_boton);
@@ -169,6 +169,63 @@ int sumar_o_restar(char* condicion, int contador, int numero){
     }
   }
   return contador;
+}
+~~~
+# MONTACARGAS
+## Descripcion
+Informa en que piso se encuentra el montacargas
+~~~
+void mostrar_posicion_montacargas(char* mensaje, int contador, int led_high, int led_low){
+  
+  encender_display(contador); 
+  encender_apagar_led(led_high, led_low);
+  validar_estado_led(led_high, mensaje);
+  imprimir_mensaje("Se encuentra en el piso ", contador);
+}
+~~~
+# PISOS
+## Descripcion
+Informa si el montacargas esta en movimiento o no y si llego a su destino
+~~~
+int recorrer_pisos(char* condicion, int contador, int numero, int led_high, int led_low){
+  //en que piso esta
+  mostrar_posicion_montacargas("\nMontacargas en movimiento",contador, LEDVERDE, LEDROJO);
+  contador = sumar_o_restar(condicion, contador, numero);
+  delay(3000); // tiempo entre pisos
+  
+  //a que piso llego
+  mostrar_posicion_montacargas("Montacargas en espera",contador, LEDROJO, LEDVERDE);
+  return contador;
+}
+~~~
+# BOTONES
+## Descripcion
+Recorre los pisos segun que boton se presione o para el montacargas
+~~~
+void ejecutar_programa(int estado_boton){
+  
+  if(estado_boton == LOW){
+    if(paro == 0){
+      
+       Serial.println("\nMontacargas en espera. Presione un boton ");
+       paro = 1;
+    }
+   
+    if(digitalRead(BOTONSUBE) == LOW){
+
+      contador = recorrer_pisos("Menor", contador, 9, LEDVERDE, LEDROJO);
+    }
+    
+    if(digitalRead(BOTOBAJA) == LOW){
+      
+      contador = recorrer_pisos("Mayor", contador, 0, LEDVERDE, LEDROJO);
+    }
+    
+  } else if(estado_boton == HIGH && paro == 1){
+    
+    validar_estado_montacargas("\nMontacargas detenido",contador, LEDROJO, LEDVERDE);
+    paro = 0;
+  }
 }
 ~~~
 
