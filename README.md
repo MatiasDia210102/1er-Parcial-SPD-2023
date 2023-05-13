@@ -10,7 +10,6 @@ AL presionar los botones el montacargas pasara por cada piso o frenara, encendie
 
 ~~~/*C++ code
   Matias Diaz DIV J TT
-  Dojo 2
 */
 
 #define LEDROJO 10 
