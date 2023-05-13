@@ -8,9 +8,10 @@ AL presionar los botones el montacargas pasara por cada piso o frenara, encendie
 
 ## Defines Y Funciones
 
-~~~/*C++ code
-  Matias Diaz DIV J TT
-*/
+~~~C 
+
+// C++ code
+// Matias Diaz DIV J TT
 
 #define LEDROJO 10 
 #define LEDVERDE 9
