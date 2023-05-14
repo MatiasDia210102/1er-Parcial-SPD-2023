@@ -179,7 +179,7 @@ void mostrar_posicion_montacargas(char* mensaje, int contador, int led_high, int
   
   encender_display(contador); 
   encender_apagar_led(led_high, led_low);
-  validar_estado_led(led_high, mensaje);
+  mostrar_mensaje_led(led_high, mensaje);
   imprimir_mensaje("Se encuentra en el piso ", contador);
 }
 ~~~
