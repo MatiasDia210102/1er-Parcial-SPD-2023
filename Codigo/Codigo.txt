@@ -39,7 +39,7 @@ determine.
 #define BOTOBAJA A1
 #define BOTONSUBE A2
 
-void validar_estado_led(int led, char* mensaje);
+void mostrar_mensaje_led(int led, char* mensaje);
 void encender_apagar_led(int led, int led2);
 void encender_digitos(int estado0, int estado1, int estado2, int estado3, int estado4, int estado5, int estado6);
 
@@ -76,7 +76,7 @@ void loop()
   ejecutar_programa(estado_boton);
 }
 
-void validar_estado_led(int led, char* mensaje){
+void mostrar_mensaje_led(int led, char* mensaje){
   
   if(digitalRead(led) == HIGH){Serial.println(mensaje);}
 }
@@ -161,18 +161,18 @@ void mostrar_posicion_montacargas(char* mensaje, int contador, int led_high, int
   
   encender_display(contador); 
   encender_apagar_led(led_high, led_low);
-  validar_estado_led(led_high, mensaje);
+  mostrar_mensaje_led(led_high, mensaje);
   imprimir_mensaje("Se encuentra en el piso ", contador);
 }
 
 int recorrer_pisos(char* condicion, int contador, int numero, int led_high, int led_low){
   //en que piso esta
-  mostrar_posicion_montacargas("\nMontacargas en movimiento",contador, LEDVERDE, LEDROJO);
+  mostrar_posicion_montacargas("\nMontacargas en movimiento",contador, led_high, led_low);
   contador = sumar_o_restar(condicion, contador, numero);
   delay(3000); // tiempo entre pisos
   
   //a que piso llego
-  mostrar_posicion_montacargas("Montacargas en espera",contador, LEDROJO, LEDVERDE);
+  mostrar_posicion_montacargas("Montacargas en espera",contador, led_low, led_high);
   return contador;
 }
 
