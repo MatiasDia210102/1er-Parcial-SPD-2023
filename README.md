@@ -27,7 +27,7 @@ AL presionar los botones el montacargas pasara por cada piso o frenara, encendie
 #define BOTOBAJA A1
 #define BOTONSUBE A2
 
-void validar_estado_led(int led, char* mensaje);
+void mostrar_mensaje_led(int led, char* mensaje);
 void encender_apagar_led(int led, int led2);
 void encender_digitos(int estado0, int estado1, int estado2, int estado3, int estado4, int estado5, int estado6);
 
@@ -68,9 +68,9 @@ void loop()
 ~~~
 # LEDS
 ## Descripcion
-Si el led esta encendido imprime el mensaje recibido
+Imprime el mensaje recibido del led que esta encendido
 ~~~C 
-void validar_estado_led(int led, char* mensaje){
+void mostrar_mensaje_led(int led, char* mensaje){
   
   if(digitalRead(led) == HIGH){Serial.println(mensaje);}
 }
@@ -101,7 +101,7 @@ void encender_digitos(int estado0, int estado1, int estado2, int estado3, int es
 ~~~
 
 ## Descripcion
-Enciende un patron de digitos segun el digito recibido
+Enciende un patron de digitos segun el numero recibido
 ~~~C
 void encender_display(int digito){
   
@@ -189,12 +189,12 @@ Informa si el montacargas esta en movimiento o no y si llego a su destino
 ~~~C
 int recorrer_pisos(char* condicion, int contador, int numero, int led_high, int led_low){
   //en que piso esta
-  mostrar_posicion_montacargas("\nMontacargas en movimiento",contador, LEDVERDE, LEDROJO);
+  mostrar_posicion_montacargas("\nMontacargas en movimiento",contador, led_high, led_low);
   contador = sumar_o_restar(condicion, contador, numero);
   delay(3000); // tiempo entre pisos
   
   //a que piso llego
-  mostrar_posicion_montacargas("Montacargas en espera",contador, LEDROJO, LEDVERDE);
+  mostrar_posicion_montacargas("Montacargas en espera",contador, led_low, led_high);
   return contador;
 }
 ~~~
@@ -223,7 +223,7 @@ void ejecutar_programa(int estado_boton){
     
   } else if(estado_boton == HIGH && paro == 1){
     
-    validar_estado_montacargas("\nMontacargas detenido",contador, LEDROJO, LEDVERDE);
+    mostrar_posicion_montacargas("\nMontacargas detenido",contador, LEDROJO, LEDVERDE);
     paro = 0;
   }
 }
