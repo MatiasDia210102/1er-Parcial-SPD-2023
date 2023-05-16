@@ -28,7 +28,7 @@ Agrego los indices del display, leds y botones a cada pin del Arduino
 #define BOTOBAJA A1
 #define BOTONSUBE A2
 ~~~
-#Funciones
+# Funciones
 ### Descripcion 
 Declaro cada prototipo de cada funcion
 ~~~C 
