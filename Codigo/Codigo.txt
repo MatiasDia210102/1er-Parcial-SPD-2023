@@ -47,7 +47,7 @@ void encender_display(int digito);
 void imprimir_mensaje(char* mensaje, int contador);
 
 void mostrar_posicion_montacargas(char* mensaje, int contador, int led_high, int led_low);
-int recorrer_pisos(char* condicion, int contador, int numero, int led_high, int led_low);
+int recorrer_pisos(int estado, char* condicion, int contador, int numero, int led_high, int led_low);
 
 void ejecutar_programa(int estado_boton);
 int sumar_o_restar(char* condicion, int contador, int numero);
@@ -165,12 +165,13 @@ void mostrar_posicion_montacargas(char* mensaje, int contador, int led_high, int
   imprimir_mensaje("Se encuentra en el piso ", contador);
 }
 
-int recorrer_pisos(char* condicion, int contador, int numero, int led_high, int led_low){
+int recorrer_pisos(int estado, char* condicion, int contador, int numero, int led_high, int led_low){
+  
   //en que piso esta
   mostrar_posicion_montacargas("\nMontacargas en movimiento",contador, led_high, led_low);
   contador = sumar_o_restar(condicion, contador, numero);
   delay(3000); // tiempo entre pisos
-  
+
   //a que piso llego
   mostrar_posicion_montacargas("Montacargas en espera",contador, led_low, led_high);
   return contador;
@@ -180,21 +181,30 @@ void ejecutar_programa(int estado_boton){
   
   if(estado_boton == LOW){
     if(paro == 0){
-      
+
        Serial.println("\nMontacargas en espera. Presione un boton ");
        paro = 1;
     }
    
     if(digitalRead(BOTONSUBE) == LOW){
-
-      contador = recorrer_pisos("Menor", contador, 9, LEDVERDE, LEDROJO);
+      if(contador < 9){
+        
+        contador = recorrer_pisos(estado_boton, "Menor", contador, 9, LEDVERDE, LEDROJO);
+      } else {
+        mostrar_posicion_montacargas("No puede subir", contador, LEDROJO, LEDVERDE);
+      	delay(300);
+      }
     }
     
     if(digitalRead(BOTOBAJA) == LOW){
       
-      contador = recorrer_pisos("Mayor", contador, 0, LEDVERDE, LEDROJO);
+      if(contador > 0){
+      	contador = recorrer_pisos(estado_boton, "Mayor", contador, 0, LEDVERDE, LEDROJO);
+      } else {
+		mostrar_posicion_montacargas("No puede bajar",contador, LEDROJO, LEDVERDE);
+        delay(300);
+      }
     }
-    
   } else if(estado_boton == HIGH && paro == 1){
     
     mostrar_posicion_montacargas("\nMontacargas detenido",contador, LEDROJO, LEDVERDE);
