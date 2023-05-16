@@ -34,9 +34,9 @@ Declaro cada prototipo de cada funcion
 ~~~C 
 void mostrar_mensaje_led(int led, char* mensaje);
 void encender_apagar_led(int led, int led2);
-void encender_digitos(int estado0, int estado1, int estado2, int estado3, int estado4, int estado5, int estado6);
+void encender_segmentos(int estado0, int estado1, int estado2, int estado3, int estado4, int estado5, int estado6);
 
-void encender_display(int digito);
+void encender_display(int numero);
 void imprimir_mensaje(char* mensaje, int contador);
 
 void mostrar_posicion_montacargas(char* mensaje, int contador, int led_high, int led_low);
@@ -102,9 +102,9 @@ void encender_apagar_led(int led, int led2){
 
 # DISPLAY
 ## Descripcion
-Enciende o apaga los digitos del display
+Enciende o apaga los segmentos del display
 ~~~C
-void encender_digitos(int estado0, int estado1, int estado2, int estado3, int estado4, int estado5, int estado6){
+void encender_segmentos(int estado0, int estado1, int estado2, int estado3, int estado4, int estado5, int estado6){
   digitalWrite(A, estado0);
   digitalWrite(B, estado1);
   digitalWrite(C, estado2);
@@ -116,40 +116,40 @@ void encender_digitos(int estado0, int estado1, int estado2, int estado3, int es
 ~~~
 
 ## Descripcion
-Enciende un patron de digitos segun el numero recibido
+Enciende un grupo de segmentos segun el numero recibido
 ~~~C
-void encender_display(int digito){
+void encender_display(int numero){
   
-  switch(digito) {
+  switch(numero) {
     case 0:
-       encender_digitos(HIGH, HIGH, HIGH, HIGH, HIGH, HIGH, LOW);
+       encender_segmentos(HIGH, HIGH, HIGH, HIGH, HIGH, HIGH, LOW);
        break;
     case 1:
-       encender_digitos(LOW, HIGH, HIGH, LOW, LOW, LOW, LOW);
+       encender_segmentos(LOW, HIGH, HIGH, LOW, LOW, LOW, LOW);
        break;
     case 2:
-      encender_digitos(HIGH, HIGH, LOW, HIGH, HIGH, LOW, HIGH);
+      encender_segmentos(HIGH, HIGH, LOW, HIGH, HIGH, LOW, HIGH);
       break;
     case 3:
-      encender_digitos(HIGH, HIGH, HIGH, HIGH, LOW, LOW, HIGH);
+      encender_segmentos(HIGH, HIGH, HIGH, HIGH, LOW, LOW, HIGH);
       break;
     case 4:
-      encender_digitos(LOW, HIGH, HIGH, LOW, LOW, HIGH, HIGH);
+      encender_segmentos(LOW, HIGH, HIGH, LOW, LOW, HIGH, HIGH);
       break;
     case 5:
-      encender_digitos(HIGH, LOW, HIGH, HIGH, LOW, HIGH, HIGH);
+      encender_segmentos(HIGH, LOW, HIGH, HIGH, LOW, HIGH, HIGH);
       break;
     case 6:
-      encender_digitos(HIGH, LOW, HIGH, HIGH, HIGH, HIGH, HIGH);
+      encender_segmentos(HIGH, LOW, HIGH, HIGH, HIGH, HIGH, HIGH);
       break;
     case 7:
-      encender_digitos(HIGH, HIGH, HIGH, LOW, LOW, LOW, LOW);
+      encender_segmentos(HIGH, HIGH, HIGH, LOW, LOW, LOW, LOW);
       break;
     case 8:
-      encender_digitos(HIGH, HIGH, HIGH, HIGH, HIGH, HIGH, HIGH);
+      encender_segmentos(HIGH, HIGH, HIGH, HIGH, HIGH, HIGH, HIGH);
       break;
     case 9:
-      encender_digitos(HIGH, HIGH, HIGH, LOW, LOW, HIGH, HIGH);
+      encender_segmentos(HIGH, HIGH, HIGH, LOW, LOW, HIGH, HIGH);
       break;
   }
 }
