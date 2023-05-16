@@ -6,7 +6,7 @@
 ## Descripcion Programa
 AL presionar los botones el montacargas pasara por cada piso o frenara, encendiendo su respectivo led y marcandolo en el display
 
-## Defines
+# Defines
 ### Descripcion 
 Agrego los indices del display, leds y botones a cada pin del Arduino
 ~~~C 
@@ -28,7 +28,7 @@ Agrego los indices del display, leds y botones a cada pin del Arduino
 #define BOTOBAJA A1
 #define BOTONSUBE A2
 ~~~
-## Funciones
+#Funciones
 ### Descripcion 
 Declaro cada prototipo de cada funcion
 ~~~C 
@@ -46,13 +46,13 @@ void ejecutar_programa(int estado_boton);
 int sumar_o_restar(char* condicion, int contador, int numero);
 ~~~
 
-## Variables Globales
+# Variables Globales
 ~~~C 
 int contador = 0;
 int estado_boton = 0;
 int paro;
 ~~~
-## Setup
+# Setup
 ### Descripcion 
 Configuro cada componente como salida o entrada digital
 ~~~C 
@@ -68,7 +68,7 @@ void setup()
 }
 ~~~
 
-## Principal
+# Principal
 ### Descripcion 
 Leo el estado del boton de parar que se encarga de la ejecucion del programa
 ~~~C 
