@@ -3,11 +3,12 @@
 
 <img src="https://github.com/MatiasDia210102/1er-Parcial-SPD-2023/blob/42f527afa33eb8bfd08b1c8172cfdda163ede0b7/Imagenes/1er%20Parcial%20SPD%202023.png?raw=true" width="800"/>
 
-## Descripcion
+## Descripcion Programa
 AL presionar los botones el montacargas pasara por cada piso o frenara, encendiendo su respectivo led y marcandolo en el display
 
-## Defines Y Funciones
-
+## Defines
+### Descripcion 
+Agrego los indices del display, leds y botones a cada pin del Arduino
 ~~~C 
 
 // C++ code
@@ -26,7 +27,11 @@ AL presionar los botones el montacargas pasara por cada piso o frenara, encendie
 #define BOTONPARA A0
 #define BOTOBAJA A1
 #define BOTONSUBE A2
-
+~~~
+## Funciones
+### Descripcion 
+Declaro cada prototipo de cada funcion
+~~~C 
 void mostrar_mensaje_led(int led, char* mensaje);
 void encender_apagar_led(int led, int led2);
 void encender_digitos(int estado0, int estado1, int estado2, int estado3, int estado4, int estado5, int estado6);
@@ -39,12 +44,17 @@ int recorrer_pisos(char* condicion, int contador, int numero, int led_high, int 
 
 void ejecutar_programa(int estado_boton);
 int sumar_o_restar(char* condicion, int contador, int numero);
+~~~
 
+## Variables Globales
+~~~C 
 int contador = 0;
 int estado_boton = 0;
 int paro;
 ~~~
-## Principal
+## Setup
+### Descripcion 
+Configuro cada componente como salida o entrada digital
 ~~~C 
 void setup()
 {
@@ -56,7 +66,12 @@ void setup()
   pinMode(BOTONSUBE, INPUT_PULLUP);
   Serial.begin(9600);
 }
+~~~
 
+## Principal
+### Descripcion 
+Leo el estado del boton de parar que se encarga de la ejecucion del programa
+~~~C 
 void loop()
 {
   if(digitalRead(BOTONPARA) == HIGH){
@@ -173,7 +188,7 @@ int sumar_o_restar(char* condicion, int contador, int numero){
 ~~~
 # MONTACARGAS
 ## Descripcion
-Informa en que piso se encuentra el montacargas
+Informa en el display y monitor en que piso se encuentra el montacargas
 ~~~C
 void mostrar_posicion_montacargas(char* mensaje, int contador, int led_high, int led_low){
   
@@ -206,21 +221,30 @@ void ejecutar_programa(int estado_boton){
   
   if(estado_boton == LOW){
     if(paro == 0){
-      
+
        Serial.println("\nMontacargas en espera. Presione un boton ");
        paro = 1;
     }
    
     if(digitalRead(BOTONSUBE) == LOW){
-
-      contador = recorrer_pisos("Menor", contador, 9, LEDVERDE, LEDROJO);
+      if(contador < 9){
+        
+        contador = recorrer_pisos(estado_boton, "Menor", contador, 9, LEDVERDE, LEDROJO);
+      } else {
+        mostrar_posicion_montacargas("No puede subir", contador, LEDROJO, LEDVERDE);
+      	delay(300);
+      }
     }
     
     if(digitalRead(BOTOBAJA) == LOW){
       
-      contador = recorrer_pisos("Mayor", contador, 0, LEDVERDE, LEDROJO);
+      if(contador > 0){
+      	contador = recorrer_pisos(estado_boton, "Mayor", contador, 0, LEDVERDE, LEDROJO);
+      } else {
+		mostrar_posicion_montacargas("No puede bajar",contador, LEDROJO, LEDVERDE);
+        delay(300);
+      }
     }
-    
   } else if(estado_boton == HIGH && paro == 1){
     
     mostrar_posicion_montacargas("\nMontacargas detenido",contador, LEDROJO, LEDVERDE);
@@ -228,6 +252,5 @@ void ejecutar_programa(int estado_boton){
   }
 }
 ~~~
-
 ## Links
 -[ThinkerCad](https://www.tinkercad.com/things/4338Omh0dDd-1er-parcial-spd-2023/editel?sharecode=GnZ_A0oCtnwW-TD9_00K6VdQM4LdxQsVx7OkNJ-BkQ4)
