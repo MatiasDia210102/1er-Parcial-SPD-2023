@@ -1,5 +1,5 @@
 # 1er-Parcial-SPD-2023
-#Proyecto
+# Proyecto
 
 <img src="https://github.com/MatiasDia210102/1er-Parcial-SPD-2023/blob/42f527afa33eb8bfd08b1c8172cfdda163ede0b7/Imagenes/1er%20Parcial%20SPD%202023.png?raw=true" width="800"/>
 
