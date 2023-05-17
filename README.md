@@ -253,4 +253,4 @@ void ejecutar_programa(int estado_boton){
 }
 ~~~
 ## Links
--[ThinkerCad](https://www.tinkercad.com/things/4338Omh0dDd-1er-parcial-spd-2023/editel?sharecode=GnZ_A0oCtnwW-TD9_00K6VdQM4LdxQsVx7OkNJ-BkQ4)
+-[ThinkerCad](https://www.tinkercad.com/things/4338Omh0dDd)
